@@ -28,8 +28,8 @@ For this it's best to create a  summary table for every column:
 | Variable                               | Type        | Segment | Expectation | Conclusion | Comments                                |
 |----------------------------------------|-------------|---------|-------------|------------|-----------------------------------------|
 | ID                                     | numerical   | organize| medium      | low        | unneccesary                             |
-| label                                  | categorical | object  | high        | high       | y variable                                       |
-| feature                                | numerical   | object  | high        | high       |                              |
+| label                                  | categorical | object  | high        | high       | y variable                              |
+| feature                                | numerical   | object  | high        | high       |                                         |
 
 Normally visualizations are key to understand the dataset, but visualizations are hard as long as we have missing values
 and uncleaned data.
@@ -70,29 +70,52 @@ This method shows the different values that a column has in absolut and relativ 
 
 ### Use missingno library for visualzation
 Missingno creates chars for visualizing missing data. As you can see in the following example it is pretty simple.
+Barchart displays NaN values by each column:
 ```
 import missingno as msno
 # barchart
 msno.bar(df)
 ```
-![missingno barchart](./img/data_cleaning/missingno_example_bar.jpg "Title")
+![missingno barchart](./img/data_cleaning/missingno_example_bar.png "barchart")
 
+Matrix displays missing values like they are in the actual dataframe.
 The less missing values in a column (except 0 missing values) the higher the chances, that the missing values are random.
-The following are some more graphs that missingno provides:
 ```
 msno.matrix(df, freq='M')
+```
+![missingno matrix](./img/data_cleaning/missingno_example_matrix.png "matrix")
 
+The heatmap measures nullity correlation: shows if there is a correlation, between columns when a missing value is in a 
+specific column.
+```
 msno.heatmap(df)
+```
+![missingno heatmap](./img/data_cleaning/missingno_example_heatmap.png "heatmap")
 
+Dendrogram shows in more detail, if there is a correlation between missing values.
+```
 msno.dendrogram(df)
 ```
+![missingno dendrogram](./img/data_cleaning/missingno_example_dendrogram.png "dendrogram")
+
+
+#### Quick and dirty
+ * get sum of missing values:
+     ```
+      df.isnull().sum()
+     ```
+* get percentage of missing values:
+     ```
+      df.isnull().mean() * 100
+     ```
+
 ### Different methods of removing missing values
 To change this there are different techniques
 
 1. **Delete columns**:\
-   This is viable, if the percentage of missing values is **over 15 percent**. Otherwise it's hard filling the gaps 
-   without any bias, but there is a catch. If the column is important for your prediction, try to dive deep in the 
-   dataset and find reasons for the missing information and bring that into the dataset.
+   This is viable, if there are to many missing values. Otherwise it's hard filling the gaps 
+   without any bias, but there is a catch. If the column is important for your prediction, try to find the reason for the
+   NaN values, if they aren't random you can use utilize it for your prediction.
    ```
     df.drop(['col1', 'col2'], axis=1, inplace=True)
     ```
@@ -113,19 +136,46 @@ To change this there are different techniques
                     'col3':df['col3'].value_counts().index[0], 'col4':"test"}, inplace=True)
         ```
     * If the column is sorted, fill with the next or previous value:
-        * ffill = replaces NaN with last valid value
-        * bfill = replaces NaN  with next valid value
+        * ffill (forward fill)= replaces NaN with last valid value
+        * bfill (backward fill)= replaces NaN  with next valid value
         ```
         df.fillna(method='bfill', axis=0)
         ```
-    * Working with SimpleImputer
+    * Filling with the next or previous value is often not optimal. A better way is the
+        * Linear Interpolation
+        * Quadratic Interpolation (only in specific cases)
+        * Nearest Interpolation
+        ```
+        # Visualization of the way NaN values are filled
       
- To check for missing values quick and dirty you can use: 
- ```
-  df.isnull().sum()
- ```
-
+        df_interpolation["column"].plot(color="red", marker='o', linestyle='dotted', figsize(30,5))
+        df["column"].plot(title="column name", maker='o')
+      
+        # Use Interpolation
+      
+        df.interpolate(method='linear', inplace=True)
+        ```
+    * Finally there are more fancy Imputation techniques, some shown here:
+        * **KNN** finds most similar points for imputing
+        * **MICE** performs multiple regression for imputing
+        ```
+        from fancyimputer import Iterativeimputer
+        ```
+    
 In a production environment it's highly advised to look at each column and decide which method to use, otherwise a lot of information could be lost.
+If you aren't sure if dropping or imputing will yield better results, than implement both and compare via Mean average error.
+### Simple Imputer, for easy replacement of missing values
+Strategies:
+* strategy='median'
+* strategy='most_frequent'
+* strategy='constant', fill_value=0
+```
+from sklearn.impute import SimpleImputer
+
+mean_imputer = SimpleImputer(strategy='mean')
+df = mean_imputer.fit_transform(df)
+```
+
 
 ## 3. Scaling and normalization
 Scaling and normalization can improve your prediction result immensely, if you use certian types of algorithms.
@@ -234,24 +284,24 @@ df['Column'].unique()
    This function helps to change variables with an high enough similarity-ratio:
     ```
     def replace_matches_in_column(df, column, string_to_match, min_ratio = 47):
-    # get a list of unique strings
-    strings = df[column].unique()
+        # get a list of unique strings
+        strings = df[column].unique()
+        
+        # get the top 10 closest matches to our input string
+        matches = fuzzywuzzy.process.extract(string_to_match, strings, 
+                                             limit=10, scorer=fuzzywuzzy.fuzz.token_sort_ratio)
     
-    # get the top 10 closest matches to our input string
-    matches = fuzzywuzzy.process.extract(string_to_match, strings, 
-                                         limit=10, scorer=fuzzywuzzy.fuzz.token_sort_ratio)
-
-    # only get matches with a ratio > 90
-    close_matches = [matches[0] for matches in matches if matches[1] >= min_ratio]
-
-    # get the rows of all the close matches in our dataframe
-    rows_with_matches = df[column].isin(close_matches)
-
-    # replace all rows with close matches with the input matches 
-    df.loc[rows_with_matches, column] = string_to_match
+        # only get matches with a ratio > 90
+        close_matches = [matches[0] for matches in matches if matches[1] >= min_ratio]
     
-    # let us know the function's done
-    print("All done!")
+        # get the rows of all the close matches in our dataframe
+        rows_with_matches = df[column].isin(close_matches)
+    
+        # replace all rows with close matches with the input matches 
+        df.loc[rows_with_matches, column] = string_to_match
+        
+        # let us know the function's done
+        print("All done!")
     ```
 
 # References
@@ -260,3 +310,4 @@ These other kernels helpt me write this cheatsheet:
 * https://www.kaggle.com/rtatman/data-cleaning-challenge-handling-missing-values
 * https://www.kaggle.com/raenish/cheatsheet-text-helper-functions
 * https://www.analyticsvidhya.com/blog/2020/04/feature-scaling-machine-learning-normalization-standardization/
+* https://github.com/ResidentMario/missingno
