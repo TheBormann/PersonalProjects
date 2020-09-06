@@ -2,12 +2,14 @@
 
 In this Cheatsheet we will be covering the most important ways to improve the quality of datasets.
 
-The strategy will come in handy for different Kaggle competitions and for building a solid understandig on 
-how to clean given data. In an production environment you should create a data cleaning pipeline out of the information 
-you gathered, working with the data in a notebook environment like this.
+In an production environment the strategies used here, should be converted into an pipeline,
+to optimize the workflow and minimize data leakage.
+
+After you have cleaned and trained your data for the first time, you can use these methods to improve you model
+with feature engineering.
 
 ## Import data
-If your data is inconsistant with showing null-values you can tell pandas to add strings to the null value detection:
+If your data has inconsistant null-values, you can tell pandas to add strings to the null value detection:
 
 ```
 missing_values = ["n/a", "na", "--"]
@@ -44,7 +46,7 @@ The reason is, with a fully cleaned dataset we can visualize more and this means
 which we can use to reevaluate our expectations.
 
 ### Workflow for treating missing values
-1. Convert all missing values to null values
+1. Convert all missing values to np.nan values
 2. Analyze the amount and type of missingness in the data
 3. Appropriately delete or impute missing values
 4. Evaluate and compare the performance of the treated/imputed dataset 
@@ -57,7 +59,7 @@ def missing_values(data):
     percentage=round(total/data.shape[0]*100,2)
     return pd.concat([total,percentage],axis=1,keys=['Total','Percentage'])
 ```
-Missing_values creates a Tabel, that shows every column, the amount of missing values and the percentage in relation to 
+Missing_values creates a tabel, that shows every column, the amount of missing values and the percentage in relation to 
 the whole dataset.
 
 ```
@@ -69,7 +71,7 @@ def count_values_in_column(data,feature):
 This method shows the different values that a column has in absolut and relativ perspective.
 
 ### Use missingno library for visualzation
-Missingno creates chars for visualizing missing data. As you can see in the following example it is pretty simple.
+Missingno creates chars for visualizing missing data. As you can see in the following example, it's pretty simple.\
 Barchart displays NaN values by each column:
 ```
 import missingno as msno
@@ -141,6 +143,16 @@ To change this there are different techniques
         ```
         df.fillna(method='bfill', axis=0)
         ```
+    * Simple Imputer, for easy replacement of missing values Strategies:
+        * strategy='median'
+        * strategy='most_frequent'
+        * strategy='constant', fill_value=0
+        ```
+        from sklearn.impute import SimpleImputer
+        
+        mean_imputer = SimpleImputer(strategy='mean')
+        df = mean_imputer.fit_transform(df)
+        ```
     * Filling with the next or previous value is often not optimal. A better way is the
         * Linear Interpolation
         * Quadratic Interpolation (only in specific cases)
@@ -157,25 +169,33 @@ To change this there are different techniques
         ```
     * Finally there are more fancy Imputation techniques, some shown here:
         * **KNN** finds most similar points for imputing
+        ```
+        from fancyimputer import KNN
+        knn_imputer = KNN()
+        df_knn.iloc[:, :] = knn_imputer.fit_transfrom(df)
+        ```
         * **MICE** performs multiple regression for imputing
         ```
         from fancyimputer import Iterativeimputer
+        MICE_imputer = IterativeImputer()
+        df_MICE.iloc[:, :] = MICE_imputer.fit_transfrom(df)
         ```
+        * Impute missing categorical values, there are 3 steps we need to follow:
+            1. Convert non-missing categorical columns to ordinal values
+            2. Impute the missing values in the ordinal dataframe
+            3. Convert back to categorical
+            
+            * **One hot encoding** transforms cateogrical data into different columns
+            ```
+            
+            ```
+            * **Ordinal encoding** links every category to a number and then replaces it with the number.
+            ```
+            
+            ```
     
 In a production environment it's highly advised to look at each column and decide which method to use, otherwise a lot of information could be lost.
 If you aren't sure if dropping or imputing will yield better results, than implement both and compare via Mean average error.
-### Simple Imputer, for easy replacement of missing values
-Strategies:
-* strategy='median'
-* strategy='most_frequent'
-* strategy='constant', fill_value=0
-```
-from sklearn.impute import SimpleImputer
-
-mean_imputer = SimpleImputer(strategy='mean')
-df = mean_imputer.fit_transform(df)
-```
-
 
 ## 3. Scaling and normalization
 Scaling and normalization can improve your prediction result immensely, if you use certian types of algorithms.
@@ -227,7 +247,7 @@ X_train = scale.transform(X_train)
 
 
 ## 4. Parse dates
-when loading a dataset dates are saved as Strings in the dataframe.
+when loading a dataset, dates are saved as Strings in the dataframe.
 [Here are all the different format types that can be used.](https://strftime.org/)
 ```
 df['column'] = pd.to_datetime(df['column'], format="%m/%d/%y")
@@ -248,7 +268,7 @@ If loading the dataset gets and error like this:
 ```
 UnicodeDecodeError: 'utf-8' codec can't decode byte 0x99 in position 11: invalid start byte
 ```
-You can use the method Rachael Tatman has described, load the data as rawdata and use chardet to detect the encoding.
+You can use the method, Rachael Tatman has described, load the data as rawdata and use chardet to detect the encoding.
 ```
 import chardet
 

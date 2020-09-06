@@ -20,7 +20,10 @@ This library follows a simple workflow:
 
  1. create a specific type of plot with values for the x and y:
     ```
-    plt.scatter(x_values, y_values)
+    plt.scatter(x=x_values, y=y_values)
+    
+    # alternatively
+    df.plot(kind="scatter", x=x_values, y=y_values)
     ```
  2. Change the styling (Here, scale of x-axis was changed):
     ```
