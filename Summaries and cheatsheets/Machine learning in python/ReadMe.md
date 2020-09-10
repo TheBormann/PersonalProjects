@@ -1,4 +1,4 @@
-This Directory holds Summaries to every step in the machine learning process:
+This Ddrectory holds summaries to every step in the machine learning process:
 1.  Understand the big picture
 2.  Get Data
 3.  Visualize data and get more insight
@@ -8,4 +8,4 @@ This Directory holds Summaries to every step in the machine learning process:
 7.  Present solution
 8.  Make it production ready
 
-Every Summary has a Nummer infront of it, to clarify at which step the information is needed.
+Every Summary has a nummer in front of it, to clarify at which step the information is needed.
