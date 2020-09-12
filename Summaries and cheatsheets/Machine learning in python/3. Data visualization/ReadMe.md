@@ -128,21 +128,21 @@ sns.distplot(df['column'], kde=False, bins=25)
 #### Distribution Plots
 | Chart | Example | Parameters | Description |
 |-------|---------|------------|-------------|
-| displot([a],kde,bins) |  | **a**, kde, bins, hist, rug, fit, vertical, label |  Shows the distribution. (Will be deprecated, use displot(), histplot() instead)|
-| jointplot(data, x,y) |  | **x**, **y**, data, kind, dropna  | Compares two distributions |
-| kdeplot(data,[x], [y]) |  | **x**, y, data, fill, bw,  | A kernel density estimate (KDE) plot |
-| pairplot(data) |  | **data**, vars, kind, diag_kind, | Plot pairwise relationships in a dataset |
-| rugplot([a]) |  | **a**, data, x,y, legend | Plot marginal distributions by drawing ticks along the x and y axes |
+| distplot([a],kde,bins) | ![Distribution chart](./img/seaborn_dist.svg "Distribution chart")  | **a**, kde, bins, hist, rug, fit, vertical, label |  Shows the distribution. (Will be deprecated, use displot(), histplot() instead)|
+| jointplot(data, x,y) |  ![joint chart](./img/seaborn_joint.svg "joint chart") | **x**, **y**, data, kind, dropna  | Compares two distributions |
+| kdeplot(data,[x], [y]) |  ![KDE chart](./img/seaborn_kde.svg "KDE chart") | **x**, y, data, fill, bw,  | A kernel density estimate (KDE) plot |
+| pairplot(data) | ![pairplot chart](./img/seaborn_pairplot.svg "pairplot chart")  | **data**, vars, kind, diag_kind, | Plot pairwise relationships in a dataset |
+| rugplot([a]) | ![Rug chart](./img/seaborn_rugplot.svg "Rug chart")  | **a**, data, x,y, legend | Plot marginal distributions by drawing ticks along the x and y axes |
 
 #### Categorical Plots 
 | Chart | Example | Parameters | Description |
 |-------|---------|------------|-------------|
-| barplot(x, y, data) |  | **data**, **x**, **y**, hue, estimator, order, orient, color, palette, saturation | Shows distribution of categorical data. Hue can hold additional categorical data|
-| countplot(x, data) |  | **data**, **x**, y, order, orient, doge | Shows distribution though counting values |
-| boxplot(x, y, data) |  | **data**, **x**, **y**, hue, fliersize | Displays a Boxplot |
-| violinplot(x, y, data) |  | **data**, **x**, **y**, hue, split, scale | Draw a combination of boxplot and kernel density estimate |
-| stripplot(x, y, data) |  | **data**, **x**, **y**, hue, jitter, edgecolor, linewidth | Draw a scatterplot where one variable is categorical |
-| swarmplot(x, y, data) |  | **data**, **x**, **y**, hue, color, size | Like a strip plot, without overlapping points |
+| barplot(x, y, data) | ![bar chart](./img/seaborn_bar.svg "bar chart")   | **data**, **x**, **y**, hue, estimator, order, orient, color, palette, saturation | Shows distribution of categorical data. Hue can hold additional categorical data|
+| countplot(x, data) | ![count chart](./img/seaborn_count.svg "count chart")  | **data**, **x**, y, order, orient, doge | Shows distribution though counting values |
+| boxplot(x, y, data) | ![boxplot chart](./img/seaborn_boxplot.svg "boxplot chart")  | **data**, **x**, **y**, hue, fliersize | Displays a Boxplot |
+| violinplot(x, y, data) | ![violin chart](./img/seaborn_violinplot.svg "violin chart")  | **data**, **x**, **y**, hue, split, scale | Draw a combination of boxplot and kernel density estimate |
+| stripplot(x, y, data) | ![strip chart](./img/seaborn_stripplot.svg "strip chart")  | **data**, **x**, **y**, hue, jitter, edgecolor, linewidth | Draw a scatterplot where one variable is categorical |
+| swarmplot(x, y, data) | ![swarm chart](./img/seaborn_swarmplot.svg "swarm chart") | **data**, **x**, **y**, hue, color, size | Like a strip plot, without overlapping points |
 
 
 #### Matrix Plots
@@ -156,8 +156,8 @@ df = df.pivot_table(index='column1', columns='column2', values='column3')
 
 | Chart | Example | Parameters | Description |
 |-------|---------|------------|-------------|
-| heatmap(data) |  | **data** (2D dataset), vmin, vmax, cmap, center, robust, annot, cbar  | Plot rectangular data as a color-encoded matrix |
-| clustermap(data) |  | **data**, pivot_kws, method, z_score standard_scale |  Plot a matrix dataset as a hierarchically-clustered heatmap |
+| heatmap(data) | ![Heatmap](./img/seaborn_Heatmap.svg "Heatmap") | **data** (2D dataset), vmin, vmax, cmap, center, robust, annot, cbar  | Plot rectangular data as a color-encoded matrix |
+| clustermap(data) |  ![Clustermap](./img/seaborn_clustermap.svg "Clustermap") | **data**, pivot_kws, method, z_score standard_scale |  Plot a matrix dataset as a hierarchically-clustered heatmap |
 
 #### Scatter Plots
 * Pair Grid: Subplot grid for plotting pairwise relationships in a dataset
@@ -180,9 +180,9 @@ df = df.pivot_table(index='column1', columns='column2', values='column3')
     ```
     g = sns.FacetGrid(df, col="col1", row="col2", hue="col5")
     g.map(sns.scatterplot, "col3", "col4")
-    
     ```
-  
+    ![Facetgrid ](./img/seaborn_facetgrid.svg "Facetgrid")
+    
 * Regression Plots: 
     ```
     sns.lmplot(x='col1', y='col2', data=df, col='col3', hue='col4',
@@ -190,6 +190,7 @@ df = df.pivot_table(index='column1', columns='column2', values='column3')
   
     # important parameters: x, y, data, col, hue, row, markers, legend, x_estimator, x_bins, fit_reg, ...
     ```
+    ![lmplot ](./img/seaborn_lmplot.svg "lmplot")
   
 #### Styling
 ```
