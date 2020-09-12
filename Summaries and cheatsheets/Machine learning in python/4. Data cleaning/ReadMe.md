@@ -9,7 +9,7 @@ After you have cleaned and trained your data for the first time, you can use the
 with feature engineering.
 
 ## Import data
-If your data has inconsistant null-values, you can tell pandas to add strings to the null value detection:
+If your data has inconsistent null-values, you can tell pandas to add strings to the null value detection:
 
 ```
 missing_values = ["n/a", "na", "--"]
@@ -30,7 +30,7 @@ dataset and can confirm my expectations)
 
 | Variable                               | Type        | Segment | Expectation | Conclusion | Comments                                |
 |----------------------------------------|-------------|---------|-------------|------------|-----------------------------------------|
-| ID                                     | numerical   | organize| medium      | low        | unneccesary                             |
+| ID                                     | numerical   | organize| medium      | low        | unnecessary                             |
 | label                                  | categorical | object  | high        | high       | y variable                              |
 | feature                                | numerical   | object  | high        | high       |                                         |
 
@@ -42,7 +42,7 @@ later on.
 ## 2. Handling missing values
 
 Even though we might not need every column in the dataset, it is important to clean the whole data set instead of only 
-the columns we evaluated as promissing. 
+the columns we evaluated as promising. 
 The reason is, with a fully cleaned dataset we can visualize more and this means we can see correlations between columns, 
 which we can use to reevaluate our expectations.
 
@@ -60,7 +60,7 @@ def missing_values(data):
     percentage=round(total/data.shape[0]*100,2)
     return pd.concat([total,percentage],axis=1,keys=['Total','Percentage'])
 ```
-Missing_values creates a tabel, that shows every column, the amount of missing values and the percentage in relation to 
+Missing_values creates a table, that shows every column, the amount of missing values and the percentage in relation to 
 the whole dataset.
 
 ```
@@ -69,9 +69,9 @@ def count_values_in_column(data,feature):
     percentage=round(data.loc[:,feature].value_counts(normalize=True)*100,2)
     return pd.concat([total,percentage],axis=1,keys=['Total','Percentage'])
 ```
-This method shows the different values that a column has in absolut and relativ perspective.
+This method shows the different values that a column has in absolute and relative perspective.
 
-### Use missingno library for visualzation
+### Use missingno library for visualization
 Missingno creates chars for visualizing missing data. As you can see in the following example, it's pretty simple.\
 Barchart displays NaN values by each column:
 ```
@@ -124,7 +124,7 @@ To change this there are different techniques
     ```
    
 2. **Drop rows with missing data:**
-    This stragey isn't perfect as well. Deleting rows means less data to train with.
+    This strategy isn't perfect as well. Deleting rows means less data to train with.
     It should be used if some rows have multiple missing values or the missing values you want to get rid of are only a 
     very low percentage of the dataset. 
    ```
@@ -287,7 +287,7 @@ In a production environment it's highly advised to look at each column and decid
 If you aren't sure if dropping or imputing will yield better results, than implement both and compare via Mean average error.
 
 ## 3. Scaling and normalization
-Scaling and normalization can improve your prediction result immensely, if you use certian types of algorithms.
+Scaling and normalization can improve your prediction result immensely, if you use certain types of algorithms.
 * Gradient Descent Based Algorithms: \
     These algorithms improve step by step. To find the minimum an algorithm must step closer and closer to the minimum, 
     without overstepping the minimum to much, otherwise it can't find the optimal result. But if there are different
@@ -326,7 +326,7 @@ normalized_data = stats.boxcox(original_data)
 
 #### Standardization
 This is another scaling technique, where the mean value is set to the value 0 and  the standard deviation is changed to 
-fit the funtion to a specific scale. This helps to reduce the influence of outliers
+fit the function to a specific scale. This helps to reduce the influence of outliers
 ```
 from sklearn.preprocessing import StandardScaler
 
@@ -371,7 +371,7 @@ print(result)
 
 
 ## 6. Inconsistent data entry
-Data can be entered in very creative and different forms. To see inconsisten values, use:
+Data can be entered in very creative and different forms. To see inconsistent values, use:
 ```
 df['Column'].unique()
 ```
@@ -381,8 +381,8 @@ df['Column'].unique()
     df['column'] = df['column'].str.strip()
     ```
 2. Use fuzzywuzzy library\
-    The **extract()** funtion gives out Strings in the column that are similar to the one passed. The score can be
-    used to correctly identify the change threshhold.
+    The **extract()** function gives out Strings in the column that are similar to the one passed. The score can be
+    used to correctly identify the change threshold.
     ```
     import fuzzywuzzy
     from fuzzywuzzy import process
@@ -414,7 +414,7 @@ df['Column'].unique()
     ```
 
 # References
-These other kernels helpt me write this cheatsheet:
+These other kernels helped me write this cheatsheet:
 * https://www.kaggle.com/pmarcelino/comprehensive-data-exploration-with-python/data
 * https://www.kaggle.com/rtatman/data-cleaning-challenge-handling-missing-values
 * https://www.kaggle.com/raenish/cheatsheet-text-helper-functions

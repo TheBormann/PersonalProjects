@@ -11,7 +11,9 @@ holds summaries Lukas has written, to understand and teach others these topics b
     + Data cleaning 
     + Data visualization
 
-+ Machine learning concepts
++ Deep learning in python
+
++ Natural language processing
    
 </details>
 
