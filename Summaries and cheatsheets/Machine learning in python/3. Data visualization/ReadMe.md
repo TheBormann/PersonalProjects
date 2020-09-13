@@ -156,7 +156,7 @@ df = df.pivot_table(index='column1', columns='column2', values='column3')
 
 | Chart | Example | Parameters | Description |
 |-------|---------|------------|-------------|
-| heatmap(data) | ![Heatmap](./img/seaborn_Heatmap.svg "Heatmap") | **data** (2D dataset), vmin, vmax, cmap, center, robust, annot, cbar  | Plot rectangular data as a color-encoded matrix |
+| heatmap(data) | ![Heatmap](./img/seaborn_heatmap.svg "Heatmap") | **data** (2D dataset), vmin, vmax, cmap, center, robust, annot, cbar  | Plot rectangular data as a color-encoded matrix |
 | clustermap(data) |  ![Clustermap](./img/seaborn_clustermap.svg "Clustermap") | **data**, pivot_kws, method, z_score standard_scale |  Plot a matrix dataset as a hierarchically-clustered heatmap |
 
 #### Scatter Plots
@@ -207,9 +207,10 @@ sns.set_context('paper', font_scale=1.4)
 sns.despine(top=False, right=False)
 ```
 
-
-
 ## Plotly
+
+Plotly will be covered in [here](.//7.%20Presentation/ReadMe.md)  in the presentation folder, because interactive charts are more important in the final product, 
+than in the development stage and is often not worth the effort.
 ### UNDER CONSTRUCTION
 
 # References
