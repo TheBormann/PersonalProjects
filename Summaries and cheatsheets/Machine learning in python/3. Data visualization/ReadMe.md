@@ -131,8 +131,13 @@ sns.distplot(df['column'], kde=False, bins=25)
 | distplot([a],kde,bins) | ![Distribution chart](./img/seaborn_dist.svg "Distribution chart")  | **a**, kde, bins, hist, rug, fit, vertical, label |  Shows the distribution. (Will be deprecated, use displot(), histplot() instead)|
 | jointplot(data, x,y) |  ![joint chart](./img/seaborn_joint.svg "joint chart") | **x**, **y**, data, kind, dropna  | Compares two distributions |
 | kdeplot(data,[x], [y]) |  ![KDE chart](./img/seaborn_kde.svg "KDE chart") | **x**, y, data, fill, bw,  | A kernel density estimate (KDE) plot |
-| pairplot(data) | ![pairplot chart](./img/seaborn_pairplot.svg "pairplot chart")  | **data**, vars, kind, diag_kind, | Plot pairwise relationships in a dataset |
 | rugplot([a]) | ![Rug chart](./img/seaborn_rugplot.svg "Rug chart")  | **a**, data, x,y, legend | Plot marginal distributions by drawing ticks along the x and y axes |
+
+Simple way to plot correlations between columns:
+
+|  |  |  |  |
+|-------|---------|------------|-------------|
+| pairplot(data) | ![pairplot chart](./img/seaborn_pairplot.svg "pairplot chart")  | **data**, vars, kind, diag_kind, | Plot pairwise relationships in a dataset |
 
 #### Categorical Plots 
 | Chart | Example | Parameters | Description |
@@ -175,6 +180,7 @@ df = df.pivot_table(index='column1', columns='column2', values='column3')
     
     g.add_legend()
     ```
+    ![Pairgrid ](./img/seaborn_pairgrid.svg "Pairgrid")
 
 * Facet Grid: Multi-plot grid for plotting conditional relationships
     ```
@@ -193,6 +199,7 @@ df = df.pivot_table(index='column1', columns='column2', values='column3')
     ![lmplot ](./img/seaborn_lmplot.svg "lmplot")
   
 #### Styling
+Often Seaborn doesn't provide own styling methods. If that is the case than use the matplotlib styling methods. 
 ```
 # different styles are: white, dartkgrid, whitegrid, dark,ticks
 sns.set_style('white')
@@ -209,9 +216,8 @@ sns.despine(top=False, right=False)
 
 ## Plotly
 
-Plotly will be covered in [here](.//7.%20Presentation/ReadMe.md)  in the presentation folder, because interactive charts are more important in the final product, 
+Plotly will be covered in [here](../7.%20Presentation/ReadMe.md)  in the presentation folder, because interactive charts are more important in the final product, 
 than in the development stage and is often not worth the effort.
-### UNDER CONSTRUCTION
 
 # References
 * https://matplotlib.org
