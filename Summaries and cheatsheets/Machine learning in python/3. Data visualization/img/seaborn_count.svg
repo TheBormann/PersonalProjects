@@ -347,7 +347,7 @@ z
    <g id="matplotlib.axis_2">
     <g id="ytick_1">
      <g id="line2d_1">
-      <path clip-path="url(#p9ac5b6c8ac)" d="M 0.576 57.024 
+      <path clip-path="url(#p0d525efe9a)" d="M 0.576 57.024 
 L 57.024 57.024 
 " style="fill:none;stroke:#cccccc;stroke-linecap:round;stroke-width:0.8;"/>
      </g>
@@ -387,7 +387,7 @@ z
     </g>
     <g id="ytick_2">
      <g id="line2d_2">
-      <path clip-path="url(#p9ac5b6c8ac)" d="M 0.576 26.127448 
+      <path clip-path="url(#p0d525efe9a)" d="M 0.576 26.127448 
 L 57.024 26.127448 
 " style="fill:none;stroke:#cccccc;stroke-linecap:round;stroke-width:0.8;"/>
      </g>
@@ -484,7 +484,7 @@ z
     </g>
    </g>
    <g id="patch_3">
-    <path clip-path="url(#p9ac5b6c8ac)" d="M 1.9872 57.024 
+    <path clip-path="url(#p0d525efe9a)" d="M 1.9872 57.024 
 L 13.2768 57.024 
 L 13.2768 18.712276 
 L 1.9872 18.712276 
@@ -492,7 +492,7 @@ z
 " style="fill:#3274a1;stroke:#ffffff;stroke-linejoin:miter;stroke-width:0.8;"/>
    </g>
    <g id="patch_4">
-    <path clip-path="url(#p9ac5b6c8ac)" d="M 16.0992 57.024 
+    <path clip-path="url(#p0d525efe9a)" d="M 16.0992 57.024 
 L 27.3888 57.024 
 L 27.3888 45.28331 
 L 16.0992 45.28331 
@@ -500,7 +500,7 @@ z
 " style="fill:#e1812c;stroke:#ffffff;stroke-linejoin:miter;stroke-width:0.8;"/>
    </g>
    <g id="patch_5">
-    <path clip-path="url(#p9ac5b6c8ac)" d="M 30.2112 57.024 
+    <path clip-path="url(#p0d525efe9a)" d="M 30.2112 57.024 
 L 41.5008 57.024 
 L 41.5008 3.264 
 L 30.2112 3.264 
@@ -508,7 +508,7 @@ z
 " style="fill:#3a923a;stroke:#ffffff;stroke-linejoin:miter;stroke-width:0.8;"/>
    </g>
    <g id="patch_6">
-    <path clip-path="url(#p9ac5b6c8ac)" d="M 44.3232 57.024 
+    <path clip-path="url(#p0d525efe9a)" d="M 44.3232 57.024 
 L 55.6128 57.024 
 L 55.6128 10.061241 
 L 44.3232 10.061241 
@@ -538,7 +538,7 @@ L 57.024 0.576
   </g>
  </g>
  <defs>
-  <clipPath id="p9ac5b6c8ac">
+  <clipPath id="p0d525efe9a">
    <rect height="56.448" width="56.448" x="0.576" y="0.576"/>
   </clipPath>
  </defs>
