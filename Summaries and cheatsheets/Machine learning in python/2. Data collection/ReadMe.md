@@ -1,0 +1,264 @@
+# Data collection
+
+The best way to scrape the web with python, is with the Scrapy library. It provides flexibility and is optimized for 
+massive data scraping
+
+## How it works
+ ![Architecture of the Scrapy framework](./img/scrapy_architecture.png "Architecture of the Scrapy framework")
+ 1. Spider sends a request to the engine
+ 2. Engine sends request to the scheduler and waits for next request
+ 3. Scheduler returns the next request to the engine (Here request are ordered in a specific way)
+ 4. Engine sends request to the downloader passing it through the Downloader middleware
+ 5. Downloaded page gets send back to the engine passing through the Downloader middleware
+ 6. Engine sends response from Downloader to spider passing through the spider Middleware
+ 7. Spider processes the response and sends it back to the engine passing through the spider middleware
+ 8. Engine sends processed items to item pipelines, sends request to scheduler and asks for next request.
+    In the Item pipelines, items are processed and saved in a db
+    
+ [more information](https://docs.scrapy.org/en/latest/topics/architecture.html)
+ 
+
+## Create a new Srcapy project
+First we need to install the library, we will be using the Anaconda packet manager for that:\
+(If terminal doesn't find the conda command, add the Anaconda/Scripts folder to environment variables)
+```
+conda env create --name environment --file=environment.yml
+
+# if environment already exists
+conda env update -f environment.yml -n environment 
+
+# switch to the environment
+conda activate environment_name
+```
+Now create a new Scrapy project
+```
+scrapy startproject project_name
+```
+this creates the following project structure
+```
+project
+|- project
+|   |- spiders              <- Contains all spiders / web crawler
+|   |   |- __init__.py      
+|   |- __init__.py 
+|   |- items.py             <- declares different items, where data is stored
+|   |- middlewares.py       <- add processing between crawling steps
+|   |- pipelines.py         <- How to process items and how to store them
+|   |- settings.py          <- Settings
+|- scrapy.cfg
+```
+
+## Create a spider
+you can create an spider by simply adding a new python file in the spider folder, or use the following command
+```
+scrapy genspider name website
+```
+The Spider should look something like this:
+```
+import scrapy
+
+class countryIndices(scrapy.Spider):
+    name = "country"
+    start_urls = [
+        "https://www.finanzen.net/indizes/alle"
+    ]
+    allowed_domains = ["https://www.finanzen.net/indizes"]
+
+    def parse(self, response):
+        pass
+```
+The parse method is where the scraping is defined, but before we define how we should process the data, it's necessary to understand Scrapy items.
+
+## Scrapy items
+Why do you need to know about Scrapy items?
+* Items can be processed before dumping it into a database
+* Each Item can be handled differently
+* It is fast when handling with large data
+
+To create an item, open the items.py file and add a new class like this:
+```
+class ItemName(scrapy.Item):
+    # define the fields for your item here like:
+    name = scrapy.Field()
+```
+
+Later we will run our finished spider with the following command from the shell:
+```
+scrapy crawl spider_name  -o file_name.json
+```
+(without -o file_name.json it will print the results to the console)
+Later we will call our spider from another script. This is possible with this code.
+
+Now we got our Item "shell" which must be populated with scraped data. To do this, we need to update our
+parse method in our Spider:
+```
+def parse(self, response):
+    # create an Itemloader, which uses the item class
+    loader = ItemLoader(item=ItemName(), selector=ElementToScrape)
+    # add elements to the item values
+    loader.add_xpath("valueName", '/x/path/')
+    # return the item
+    index_item = loader.load_item()
+    yield index_item
+```
+## Pipelines
+After fitting the data into the item we can manipulate the data further with pipelines, reasons are:
+* cleaning html
+* validating scraped data
+* dropping duplicates
+* storing scraped data
+
+1. Go to the settings.py and add a pipeline (The number describes the order of the pipelines, small comes earlier and max 1000)
+    ```
+    # Configure item pipelines
+    # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
+    ITEM_PIPELINES = {
+        'StockIndices.pipelines.StockindicesPipeline': 300,
+    }
+    ```
+2. Now we can add a new pipeline in the pipelines.py file:
+```
+class PipelineName(object):
+    def process_item(self, item, spider):
+       item["col"] = item["col"] + 2
+
+        return item 
+```
+This Pipeline adds 2 to every element in the column "col". This is a pretty simple
+example, more complicated is, to save your data to an sql database.
+(To use the SQL-connector, "SQLAlchemy>=1.3.6" must be added to the environment)
+
+### Save items to SQL
+1. Add link to the sqlite db in to settings.py
+    ```
+    # SQLite
+    CONNECTION_STRING = 'sqlite:///relative/link/data.db'   
+    ```
+2. Add a models.py in the folder with pipelines.py, in there we are defining how to connect to the db and with tables 
+should be created:
+    ```
+    from sqlalchemy import create_engine, Column, Table, ForeignKey, MetaData
+    from sqlalchemy.orm import relationship
+    from sqlalchemy.ext.declarative import declarative_base
+    from sqlalchemy import (
+        Integer, String, Date, DateTime, Float, Boolean, Text)
+    from scrapy.utils.project import get_project_settings
+    
+    Base = declarative_base()
+
+
+    def db_connect():
+        """
+        Performs database connection using database settings from settings.py.
+        Returns sqlalchemy engine instance
+        """
+    return create_engine(get_project_settings().get("CONNECTION_STRING"))
+
+
+    def create_table(engine):
+        Base.metadata.create_all(engine)
+
+   
+    class table1(Base):
+        __tablename__ = "table1"
+
+    col1 = Column(String, primary_key=True)
+    col2 = Column(String)
+    col3 = Column(Float)
+    ```
+3. Now we can define how to save each item in the table, this is done though the pipelines, so we need to update
+pipelines.py:
+    ```
+    class StockindicesPipeline(object):
+
+    def __init__(self):
+        """
+        Initializes database connection and sessionmaker
+        Creates tables
+        """
+        engine = db_connect()
+        create_table(engine)
+        self.Session = sessionmaker(bind=engine)
+        logging.info("****SaveQuotePipeline: database connected****")
+
+    def process_item(self, item, spider):
+        """Save quotes in the database
+        This method is called for every item pipeline component
+        """
+        session = self.Session()
+        index = Index()
+        index.index = item["col1"][0]
+        index.country = item["col2"][0]
+        index.last = item["col3"][0]
+
+        try:
+            session.add(index)
+            session.commit()
+
+        except:
+            session.rollback()
+            raise
+
+        finally:
+            session.close()
+
+        return item
+    ```
+## How to run your scraper periodically
+
+
+# Dynamic Web scraping
+This is needed, the data you want to scrape is hidden behind java script functionality, or when the website is completely
+based on javascript. In these cases it is necessary to simulate the button presses to trigger the js script.
+
+Because Scarpy can't handle simulating clicks or js scripts it needs help from the Selenium library. 
+
+To use Selenium in Scrapy we need to download the chromedriver (firefoxdriver, when you want to scrape with the firefox browser)
+https://chromedriver.chromium.org/downloads, this driver must have the same version as your current browser installed.
+Then you can import the Selemnium library in your spider
+```
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.keys import Keys
+from scrapy.selector import Selector
+from selenium import webdriver
+```
+and use Selenium as usually in the spiders parse function:
+```
+basedir = os.path.dirname(os.path.realpath('__file__'))
+
+ def parse(self, response):
+
+ 
+        # customize the appearence of the browser
+        chrome_options = Options()
+        chrome_options.add_argument("--window-size=1920x1080")
+        
+        # scrapes without actually opening a browser
+        # chrome_options.add_argument("--headless")
+        
+        
+        chrome_driver_path = os.path.join(basedir, 'chromedriver')
+        driver = webdriver.Chrome(chrome_options=chrome_options, executable_path=chrome_driver_path)
+
+        driver.get('https://website.com')
+
+        # now we can work with js
+        driver.execute_script("window.scrollTo(0, 50);")
+
+        # and use scrapy to gather the data
+        scrapy_selector = Selector(text = driver.page_source)
+        
+        search_button = driver.find_element_by_css_selector('input[type="login"]')
+        search_button.click()
+        driver.quit()
+
+```
+## Good to know
+* When website blocks scraping, you can change the USER-AGENT in the settings like this and often it helps
+    ```
+    USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.101 Safari/537.36'
+    ```
+ 
+## Resources
+* https://towardsdatascience.com/a-minimalist-end-to-end-scrapy-tutorial-part-i-11e350bcdec0
