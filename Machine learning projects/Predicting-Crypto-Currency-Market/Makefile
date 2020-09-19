@@ -8,9 +8,13 @@ requirements:
 ## Downloads data from the cloud
 #download:
 
+## Upload the gathered data
+#upload:
+
 ##  gathers data though periodically API calls and web scraping
 gather :
 	python src/data/cryptoCurrency.py
+	python src/data/indices.py
 
 
 #all:
@@ -18,6 +22,7 @@ gather :
 
 clean:
 	rm -f data/gathered/crypto.json
+	rm -f data/gathered/Crypto_index.db
 
 	rm -f data/raw/*.csv
 	rm -f data/interim/*.csv
@@ -28,3 +33,7 @@ clean:
 	rm -f data/processed/*.csv
 	rm -f reports/figures/*.png
 	rm -f models/*.model
+
+clean_windows:
+	del ./data/gathered/crypto.json
+	del ./data/gathered/Crypto_index.db

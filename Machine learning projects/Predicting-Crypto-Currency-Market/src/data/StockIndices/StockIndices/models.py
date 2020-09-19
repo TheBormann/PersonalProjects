@@ -23,7 +23,7 @@ def create_table(engine):
 
 class Index(Base):
     date = datetime.datetime.now().date().strftime("%Y_%m_%d")
-    __tablename__ = date
+    __tablename__ = date + "_indices"
 
     index = Column(String, primary_key=True)
     country = Column(String)

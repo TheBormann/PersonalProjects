@@ -204,8 +204,64 @@ pipelines.py:
 
         return item
     ```
-## How to run your scraper periodically
+   
+## Run Spider outside project
+This is more tricky and there are two techniques we can choose from.
+If our project is small, we can use the Scrapy library and create a scraping program without the framework:
+[Here more about that](https://towardsdatascience.com/how-to-run-scrapy-from-a-script-ff07fd6b792b)
+The other way is, to run the crawl command outside the framework project. To accomplish this, we are going to update our
+framework as follows: ([based on this post](https://stackoverflow.com/questions/31662797/getting-scrapy-project-settings-when-script-is-outside-of-root-directory/47057488#47057488) )
 
+```
+my_project/
+    main.py                 # Where we are running scrapy from
+    scraper/
+        run_scraper.py               #Call from main goes here
+        scrapy.cfg                   # deploy configuration file
+        scraper/                     # project's Python module, you'll import your code from here
+            __init__.py
+            items.py                 # project items definition file
+            pipelines.py             # project pipelines file
+            settings.py              # project settings file
+            spiders/                 # a directory where you'll later put your spiders
+                __init__.py
+                mySpider.py     # Contains the QuotesSpider class
+```
+The main file:
+```
+from scraper.run_scraper import Scraper
+scraper = Scraper()
+scraper.run_spiders()
+```
+run_scraper.py file:
+```
+from scraper.scraper.spiders.mySpider import mySpider
+from scrapy.crawler import CrawlerProcess
+from scrapy.utils.project import get_project_settings
+import os
+
+
+class Scraper:
+    def __init__(self):
+        settings_file_path = 'scraper.scraper.settings' # The path seen from root, ie. from main.py
+        os.environ.setdefault('SCRAPY_SETTINGS_MODULE', settings_file_path)
+        self.process = CrawlerProcess(get_project_settings())
+        self.spider = mySpider # The spider you want to crawl
+
+    def run_spiders(self):
+        self.process.crawl(self.spider)
+        self.process.start()  # the script will block here until the crawling is finished
+```
+And at last, we need to update the settings.py:
+```
+SPIDER_MODULES = ['scraper.scraper.spiders']
+NEWSPIDER_MODULE = 'scraper.scraper.spiders'
+```
+Now our Framework isn't able to run with the traditional "spider crawl mySpider" command, but if we run the main.py
+program our framework will be executed!
+
+## How to run your scraper periodically
+Use chrontab to automatically run the file for starting the spider.
 
 # Dynamic Web scraping
 This is needed, the data you want to scrape is hidden behind java script functionality, or when the website is completely

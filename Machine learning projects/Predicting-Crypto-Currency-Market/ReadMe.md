@@ -41,6 +41,8 @@ work in progress
 ## Techniques used in the following project:
 
 * Data collection
+    - Scrapy
+    - API interaction
 * Exploration of the generated datasets
 * Predicting some currency values via machine learning algorithms
 

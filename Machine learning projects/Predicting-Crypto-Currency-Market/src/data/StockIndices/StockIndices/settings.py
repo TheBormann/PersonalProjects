@@ -11,8 +11,8 @@
 
 BOT_NAME = 'StockIndices'
 
-SPIDER_MODULES = ['StockIndices.spiders']
-NEWSPIDER_MODULE = 'StockIndices.spiders'
+SPIDER_MODULES = ['StockIndices.StockIndices.spiders']
+NEWSPIDER_MODULE = 'StockIndices.StockIndices.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
@@ -22,7 +22,7 @@ USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_1) AppleWebKit/537.36
 # Database Connection String
 
 # SQLite
-CONNECTION_STRING = 'sqlite:///../../../data/gathered/indices.db'
+CONNECTION_STRING = 'sqlite:///data/gathered/Crypto_index.db'
 
 # MySQL
 # CONNECTION_STRING = "{drivername}://{user}:{passwd}@{host}:{port}/{db_name}?charset=utf8".format(
@@ -81,7 +81,7 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'StockIndices.pipelines.StockindicesPipeline': 300,
+    'StockIndices.StockIndices.pipelines.StockindicesPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
