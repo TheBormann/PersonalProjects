@@ -24,6 +24,7 @@ Examples
 ```
 Predicting_Crypto_Currency_Market
     |- data
+    |   |- gathered     <- output folder for web scraping
     |   |- interim      <- merges different raw data
     |   |- processed    <- cleaned data
     |   |- raw          

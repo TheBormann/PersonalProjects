@@ -22,12 +22,14 @@ def create_table(engine):
 
 
 class Index(Base):
-    date = datetime.datetime.now().date().strftime("%Y_%m_%d")
-    __tablename__ = date + "_indices"
+    __tablename__ = "Indices"
 
+    date = Column(Date, primary_key=True)
     index = Column(String, primary_key=True)
     country = Column(String)
     last = Column(Float)
     high = Column(Float)
     low = Column(Float)
     changeTotal = Column(Float)
+
+

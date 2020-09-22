@@ -33,7 +33,3 @@ clean:
 	rm -f data/processed/*.csv
 	rm -f reports/figures/*.png
 	rm -f models/*.model
-
-clean_windows:
-	del ./data/gathered/crypto.json
-	del ./data/gathered/Crypto_index.db

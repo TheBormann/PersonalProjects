@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="Crypto_index" uuid="6af2eeff-d28a-4c46-9400-76015889e896">
+    <data-source source="LOCAL" name="Crypto_index" uuid="0bdcfb71-8cc3-443a-8d7d-43542b163460">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>

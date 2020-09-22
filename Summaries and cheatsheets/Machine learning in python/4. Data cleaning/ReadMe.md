@@ -15,6 +15,19 @@ If your data has inconsistent null-values, you can tell pandas to add strings to
 missing_values = ["n/a", "na", "--"]
 df = pd.read_csv('./your/link/to/yourDataset.csv', na_values = missing_values)
 ```
+When you want to load sql data, use the following:
+```
+import  sqlite3
+import pandas as pd
+
+try:
+    conn = sqlite3.connect('../data/gathered/Database.db')
+    cursor = conn.cursor()
+except:
+    print("Database  couldn ’t get  created/be found")
+
+df = pd.read_sql("select * from  table_name", con=conn)
+```
 
 ## 1. Understanding the dataset
 
