@@ -262,8 +262,11 @@ program our framework will be executed!
 
 
 ## How to run your scraper periodically
-Use chrontab to automatically run the file for starting the spider.
-
+* When using the normal Scrapy Framework:
+    Scrapyd is the best option
+* When using the modified Framework, to be callable from Script:
+    **Cron** on linux and **schtasks** for windows
+    
 # Dynamic Web scraping
 This is needed, the data you want to scrape is hidden behind java script functionality, or when the website is completely
 based on javascript. In these cases it is necessary to simulate the button presses to trigger the js script.
@@ -317,6 +320,14 @@ basedir = os.path.dirname(os.path.realpath('__file__'))
 
 
 ## Scrapy without framework
+It is possible to run Scrapy without the actual Scrapy framework. This allows you to run the web-crawler from another 
+script.\
+Because there 
+
+## Scrapyd
+Scrapyd is a way to schedule and run Scrapy spiders on your own hardware. An alternative to Scrapyd is
+www.scrapinghub.com where everything is already set up and your code only needs to get uploaded.
+
 
 
 ## Good to know
@@ -328,3 +339,5 @@ basedir = os.path.dirname(os.path.realpath('__file__'))
 ## Resources
 * https://towardsdatascience.com/a-minimalist-end-to-end-scrapy-tutorial-part-i-11e350bcdec0
 * https://docs.scrapy.org/en/latest/
+* https://towardsdatascience.com/how-to-run-scrapy-from-a-script-ff07fd6b792b
+* https://kirankoduru.github.io/python/running-scrapy-programmatically.html

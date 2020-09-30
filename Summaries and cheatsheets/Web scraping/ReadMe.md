@@ -3,8 +3,9 @@ Here are all information gathered on how to scrape any kind of website with
 the libraries Beautiful soup, Selenium and Scrapy.
 
 <details>
-<summar>Show structure</summar>
+<summar>Covered Scrapers</summar>
 <br>
+
 + [Beautiful soup](./Beautiful_soup.md)
 + [Selenium](./Selenium.md)
 + [Scrapy](./Scrapy.md)

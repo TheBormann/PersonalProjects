@@ -5,9 +5,9 @@ Holds all personal projects for Lukas Bormann
 <summar>Show project categories</summar>
 <br>
 
-+ Machine learning projects
++ [Machine learning projects](./Machine%20learning%20projects)
     
-+ Summaries and cheatsheets
++ [Summaries and cheatsheets](./Summaries%20and%20cheatsheets)
 </details>
 
 # Highlights
