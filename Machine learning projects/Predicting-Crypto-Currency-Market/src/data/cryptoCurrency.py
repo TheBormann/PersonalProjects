@@ -35,7 +35,7 @@ class Crypto(Base):
     atl = Column(Float)
     atl_date = Column(String)
 
-
+# CODE MUST BE RUN IN THE ROOT DIR OF PROJECT
 engine = create_engine('sqlite:///data/gathered/Crypto_index.db', echo=True)
 Base.metadata.create_all(bind=engine)
 Session = sessionmaker(bind=engine)

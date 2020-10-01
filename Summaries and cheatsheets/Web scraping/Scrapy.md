@@ -335,6 +335,12 @@ www.scrapinghub.com where everything is already set up and your code only needs 
     ```
     USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.101 Safari/537.36'
     ```
+* When using Anacodna as environment manager:
+    + Add /path/Anaconda3/scripts to environment variables
+    + if your are using powershell, you need to allow to run bash scripts:
+    ```
+    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
+    ```
  
 ## Resources
 * https://towardsdatascience.com/a-minimalist-end-to-end-scrapy-tutorial-part-i-11e350bcdec0
