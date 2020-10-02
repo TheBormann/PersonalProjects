@@ -317,18 +317,130 @@ basedir = os.path.dirname(os.path.realpath('__file__'))
 
 ```
 ## Scrapy middleware
+Spider middleware are "hooks" that process response and request.
+You need middleware if you need to
+* post-process output of spider callbacks - change/add/remove requests or items
+* post-process start_requests
+* handle spider exceptions
+To use Scrapy middleware we need to update the settings.py
+```
+SPIDER_MIDDLEWARES = {
+    'myproject.middlewares.CustomSpiderMiddleware': 543,
+}
+```
+Now you need to create a middleware class with specific methods:
+```
+class CustomSpiderMiddleware(object):
+    def process_spider_input(response, spider):
+        pass
+    
+    def process_spider_output(response, result, spider):
+        pass
 
+    def process_spider_exception(response, exception, spider):
+        pass
+
+    process_start_requests(start_requests, spider):
+        pass
+
+    from_crawler(cls, crawler):
+        pass
+```
+For more information about middleware read [here](https://docs.scrapy.org/en/latest/topics/spider-middleware.html#topics-spider-middleware)
+
+One use case for middleware is to bypass website Restrictions using User-Agent.
+An User-Agent shows the website with what type of browser the user is trying to connect to the website.
+Some websites could block specific browsers from accessing the website, as well as blocking to many requests from the same
+browser. To prevent this we can use Scrapy's User-Agent:
+1. add scrapy-user-agents to the python environment (not available in anaconda, use pip)
+2. comment the USER_AGENT variable in settings.py out
+3. Add the following code to the other middleware in the settings file
+    ```
+    DOWNLOADER_MIDDLEWARES = {
+    'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
+    'scrapy_user_agents.middlewares.RandomUserAgentMiddleware': 400,
+    }
+    ```
+When you are scraping huge amounts of data from a specific website, they might be blocking your ip-adress because of that.
+To prevent this there is a middleware called scrapy-proxies, with uses different ip-adresses for each scrape.
+More information is accessible here:
+https://github.com/aivarsk/scrapy-proxies
 
 ## Scrapy without framework
-It is possible to run Scrapy without the actual Scrapy framework. This allows you to run the web-crawler from another 
+It is possible to run Scrapy without the actual Scrapy framework. This allows you to run the web-crawler from within another 
 script.\
-Because there 
+To do this you need to create a CrawlProcess and pass it the spider class. 
+```
+import scrapy
+from scrapy.crawler import CrawlerProcess
+
+
+class QuotesSpider(scrapy.Spider):
+    name = 'quotes'
+    start_urls = [
+        'http://quotes.toscrape.com/tag/humor/',
+    ]
+
+    def parse(self, response):
+        for quote in response.css('div.quote'):
+            yield {
+                'text': quote.css('span.text::text').get(),
+                'author': quote.xpath('span/small/text()').get(),
+            }
+
+        next_page = response.css('li.next a::attr("href")').get()
+        if next_page is not None:
+            yield response.follow(next_page, self.parse)
+
+
+# run spider
+if __name__ == "__main__":
+    process = CrawlerProcess({
+                "USER_AGENT": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_1) AppleWebKit/537.36 (KHTML, like Gecko) "
+                              "Chrome/60.0.3112.101 Safari/537.36",
+                "ROBOTSTXT_OBEY": True
+            })
+    process.crawl(QuotesSpider)
+    process.start()
+```
 
 ## Scrapyd
 Scrapyd is a way to schedule and run Scrapy spiders on your own hardware. An alternative to Scrapyd is
 www.scrapinghub.com where everything is already set up and your code only needs to get uploaded.
-
-
+To use Scrapyd we need to do the following steps:
+1. Install scrapyd (not available in Anaconda)
+    ```
+    pip install scrapyd 
+    ```
+2. To launch scrapyd, type
+    ```
+    scraypd
+    ```
+3. Install the scrapyd client for easy spider setup in Scrapyd
+    ```
+    pip install git+https://github.com/scrapy/scrapyd-client.git
+    ```
+4. change the deploy section of the scrapy.cfg file to:
+    ```
+    [deploy:local]
+    # Url must point to the scrapy demon url
+    url = http://localhost:6800/
+    project = myproject
+    ```
+5. Deploy spider (local referes to the deploy:local section above)
+    ```
+     scrapyd-deploy local
+    ```
+6. Now with the curl command, we can add a spider to Scrapyd
+    ```
+    curl https://localhost:6800/schedule.json -d project=myproject -d spider=myspider
+    ```
+7. Stop spider (Job-id is accessabel under the jobs tab on the localhost website)
+    ```
+    curl http://localhost:6800/cancel.json -d project=myproject -d job=myjobid
+    ```
+Other endpoints that can be changed, can be found here:
+https://scrapyd.readthedocs.io/en/latest/api.html
 
 ## Good to know
 * When website blocks scraping, you can change the USER-AGENT in the settings like this and often it helps
@@ -341,6 +453,14 @@ www.scrapinghub.com where everything is already set up and your code only needs 
     ```
     Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
     ```
+    + export Anaconda environment
+    ```
+    # linux
+    conda env export --no-builds | grep -v "prefix" > environment.yml
+    # windows
+    conda env export --no-builds | findstr -v "prefix" > environment.yml
+    ```
+    **It is very important to export the file in UTF-8 format!**
  
 ## Resources
 * https://towardsdatascience.com/a-minimalist-end-to-end-scrapy-tutorial-part-i-11e350bcdec0

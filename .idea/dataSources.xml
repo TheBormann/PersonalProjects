@@ -1,26 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="Crypto_index" uuid="0bdcfb71-8cc3-443a-8d7d-43542b163460">
+    <data-source source="LOCAL" name="Festivals" uuid="8949b80d-891d-4e27-bc33-a7ba539844de">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:E:\Documents\Code\PersonalProjects\PersonalProjects\Machine learning projects\Predicting-Crypto-Currency-Market\data\gathered\Crypto_index.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:C:\Git\PersonalProjects\Summaries and cheatsheets\Web scraping\code\Festivals.sqlite</jdbc-url>
       <libraries>
         <library>
-          <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/Xerial SQLiteJDBC/3.25.1/license.txt</url>
+          <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/Xerial SQLiteJDBC/3.31.1/sqlite-jdbc-3.31.1.jar</url>
         </library>
-        <library>
-          <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/Xerial SQLiteJDBC/3.25.1/sqlite-jdbc-3.25.1.jar</url>
-        </library>
-      </libraries>
-    </data-source>
-    <data-source source="LOCAL" name="concerts" uuid="a621655f-19b1-429d-8d0c-443fcdb7dcbe">
-      <driver-ref>sqlite.xerial</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\GitHub\Python\PersonalProjects\Summaries and cheatsheets\Web scraping\code\concerts.db</jdbc-url>
-      <libraries>
         <library>
           <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/Xerial SQLiteJDBC/3.25.1/license.txt</url>
         </library>

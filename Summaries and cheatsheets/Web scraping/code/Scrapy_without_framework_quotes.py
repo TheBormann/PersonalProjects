@@ -1,6 +1,7 @@
 import scrapy
 from scrapy.crawler import CrawlerProcess
 
+
 class QuotesSpider(scrapy.Spider):
     name = 'quotes'
     start_urls = [
@@ -18,7 +19,13 @@ class QuotesSpider(scrapy.Spider):
         if next_page is not None:
             yield response.follow(next_page, self.parse)
 
+
 # run spider
-process = CrawlerProcess()
-process.crawl(QuotesSpider)
-process.start()
+if __name__ == "__main__":
+    process = CrawlerProcess({
+                "USER_AGENT": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_1) AppleWebKit/537.36 (KHTML, like Gecko) "
+                              "Chrome/60.0.3112.101 Safari/537.36",
+                "ROBOTSTXT_OBEY": True
+            })
+    process.crawl(QuotesSpider)
+    process.start()

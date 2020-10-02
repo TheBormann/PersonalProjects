@@ -1,4 +1,4 @@
-name: base
+name: cryptoCurrencyPred
 channels:
   - anaconda
   - defaults
@@ -323,4 +323,3 @@ dependencies:
       - vboxapi==1.0
       - virtualenv==16.7.8
       - virtualenvwrapper-win==1.2.5
-prefix: E:\Programme\Anaconda
