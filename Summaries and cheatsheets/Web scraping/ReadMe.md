@@ -2,14 +2,11 @@
 Here are all information gathered on how to scrape any kind of website with 
 the libraries Beautiful soup, Selenium and Scrapy.
 
-<details>
-<summar>Covered Scrapers</summar>
-<br>
+### Covered Scrapers
 
 + [Beautiful soup](./Beautiful_soup.md)
 + [Selenium](./Selenium.md)
 + [Scrapy](./Scrapy.md)
-</details>
 
 ## Summary
 Overall **Scrapy** is the best choice, especially if you are creating complex
