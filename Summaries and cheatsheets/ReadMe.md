@@ -2,19 +2,10 @@
 
 holds summaries Lukas has written, to understand and teach others these topics better.
 
-
-<details>
-<summar>Show Summary structure</summar>
-<br>
-
-+ Machine learning in python
-    + Data cleaning 
-    + Data visualization
-
-+ Deep learning in python
-
-+ Natural language processing
-   
-</details>
+### Covered Topics:
+* [Web scraping](./Web%20scraping)
+* [Visualization](./Visualization)
+* [Natural language processing](./Natural%20language%20processing)
+* [Deep leaning in python](./Deep%20learning%20in%20python)
 
 # Highlights

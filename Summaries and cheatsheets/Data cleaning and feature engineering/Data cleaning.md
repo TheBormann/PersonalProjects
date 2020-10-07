@@ -2,6 +2,9 @@
 
 In this Cheatsheet we will be covering the most important ways to improve the quality of datasets.
 
+This means, that we need to clean up up the data set in general and only select the features, that could help us make a better 
+prediction. The other way of improving the dataset is [Feature engineering](./Feature%20engineering)
+
 In an production environment the strategies used here, should be converted into an pipeline,
 to optimize the workflow and minimize data leakage.
 
@@ -86,34 +89,7 @@ This method shows the different values that a column has in absolute and relativ
 
 ### Use missingno library for visualization
 Missingno creates chars for visualizing missing data. As you can see in the following example, it's pretty simple.\
-Barchart displays NaN values by each column:
-```
-import missingno as msno
-# barchart
-msno.bar(df)
-```
-![missingno barchart](./img/data_cleaning/missingno_example_bar.png "barchart")
-
-Matrix displays missing values like they are in the actual dataframe.
-The less missing values in a column (except 0 missing values) the higher the chances, that the missing values are random.
-```
-msno.matrix(df, freq='M')
-```
-![missingno matrix](./img/data_cleaning/missingno_example_matrix.png "matrix")
-
-The heatmap measures nullity correlation: shows if there is a correlation, between columns when a missing value is in a 
-specific column.
-```
-msno.heatmap(df)
-```
-![missingno heatmap](./img/data_cleaning/missingno_example_heatmap.png "heatmap")
-
-Dendrogram shows in more detail, if there is a correlation between missing values.
-```
-msno.dendrogram(df)
-```
-![missingno dendrogram](./img/data_cleaning/missingno_example_dendrogram.png "dendrogram")
-
+More about Missingno [here](missingno.md)
 
 #### Quick and dirty
  * get sum of missing values:

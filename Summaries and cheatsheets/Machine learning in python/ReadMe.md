@@ -10,3 +10,6 @@ This directory holds summaries to every step in the machine learning process:
 
 The summaries cover only the algorithms that are used on tabulary data, more is provided in the other directories!
 The numeration linking directories to the topics described above.
+
+## Ressources
+https://www.oreilly.com/library/view/building-machine-learning/9781492045106/
