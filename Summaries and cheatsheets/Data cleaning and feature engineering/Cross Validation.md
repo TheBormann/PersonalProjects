@@ -1,6 +1,6 @@
 #Cross validation
 
-To use corss validation effectively, you should use pipeline for data cleaning.
+To use cross validation effectively, you should use pipeline for data cleaning.
 
 ```
 

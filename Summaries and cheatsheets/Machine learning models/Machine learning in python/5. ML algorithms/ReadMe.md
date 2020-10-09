@@ -13,4 +13,4 @@
  
  
  # Machine Learning map
- ![Machine Learning Map](./img/o44l3cqn.bmp "Machine Learning Map") 
+ ![Machine Learning Map](img/o44l3cqn.bmp "Machine Learning Map") 
