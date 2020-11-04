@@ -1,2 +1,0 @@
-# Plotly
-### UNDER CONSTRUCTION
